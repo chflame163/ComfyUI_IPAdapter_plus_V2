@@ -646,7 +646,8 @@ class IPAdapterTiledV2:
     FUNCTION = "apply_tiled"
     CATEGORY = "ipadapter"
 
-    def apply_tiled(self, model, ipadapter, image, weight, weight_type, start_at, end_at, sharpening, combine_embeds="concat", image_negative=None, attn_mask=None, clip_vision=None):
+    def apply_tiled(self, model, ipadapter, image, weight, weight_type, start_at, end_at, sharpening,
+                    combine_embeds="concat", image_negative=None, attn_mask=None, clip_vision=None):
         # 1. Select the models
         if 'ipadapter' in ipadapter:
             ipadapter_model = ipadapter['ipadapter']['model']
@@ -661,9 +662,9 @@ class IPAdapterTiledV2:
         del ipadapter
 
         # 2. Extract the tiles
-        tile_size = 256     # I'm using 256 instead of 224 as it is more likely divisible by the latent size, it will be downscaled to 224 by the clip vision encoder
+        tile_size = 256  # I'm using 256 instead of 224 as it is more likely divisible by the latent size, it will be downscaled to 224 by the clip vision encoder
         _, oh, ow, _ = image.shape
-        image = image.permute([0,3,1,2])
+        image = image.permute([0, 3, 1, 2])
         if attn_mask is not None:
             attn_mask = attn_mask.unsqueeze(1)
             # the mask should have the same proportions as the reference image and the latent
@@ -673,7 +674,7 @@ class IPAdapterTiledV2:
         if oh / ow > 0.75 and oh / ow < 1.33:
             # crop the image to a square
             image = T.CenterCrop(min(oh, ow))(image)
-            resize = (tile_size*2, tile_size*2)
+            resize = (tile_size * 2, tile_size * 2)
 
             if attn_mask is not None:
                 attn_mask = T.CenterCrop(min(oh, ow))(attn_mask)
@@ -683,18 +684,19 @@ class IPAdapterTiledV2:
 
         imgs = []
         for img in image:
-            img = T.ToPILImage()(img) # using PIL for better results
+            img = T.ToPILImage()(img)  # using PIL for better results
             img = img.resize(resize, resample=Image.Resampling['LANCZOS'])
             imgs.append(T.ToTensor()(img))
         image = torch.stack(imgs)
         del imgs, img
 
         if attn_mask is not None:
-            attn_mask = T.Resize(resize[::-1], interpolation=T.InterpolationMode.BICUBIC, antialias=True)(attn_mask) # we don't need a high quality resize for the mask
+            attn_mask = T.Resize(resize[::-1], interpolation=T.InterpolationMode.BICUBIC, antialias=True)(
+                attn_mask)  # we don't need a high quality resize for the mask
 
         # we allow a maximum of 4 tiles
         if oh / ow > 4 or oh / ow < 0.25:
-            crop = (tile_size, tile_size*4) if oh < ow else (tile_size*4, tile_size)
+            crop = (tile_size, tile_size * 4) if oh < ow else (tile_size * 4, tile_size)
             image = T.CenterCrop(crop)(image)
             if attn_mask is not None:
                 attn_mask = T.CenterCrop(crop)(attn_mask)
@@ -705,7 +707,7 @@ class IPAdapterTiledV2:
         if sharpening > 0:
             image = contrast_adaptive_sharpening(image, sharpening)
 
-        image = image.permute([0,2,3,1])
+        image = image.permute([0, 2, 3, 1])
 
         _, oh, ow, _ = image.shape
 
@@ -715,9 +717,7 @@ class IPAdapterTiledV2:
         overlap_x = max(0, (tiles_x * tile_size - ow) / (tiles_x - 1 if tiles_x > 1 else 1))
         overlap_y = max(0, (tiles_y * tile_size - oh) / (tiles_y - 1 if tiles_y > 1 else 1))
 
-        base_mask = None
-        if attn_mask is None:
-            base_mask = torch.zeros([1, oh, ow], dtype=image.dtype, device=image.device)
+        base_mask = torch.zeros([1, oh, ow], dtype=image.dtype, device=image.device)
 
         # extract all the tiles from the image and create the masks
         tiles = []
@@ -726,12 +726,14 @@ class IPAdapterTiledV2:
             for x in range(tiles_x):
                 start_x = int(x * (tile_size - overlap_x))
                 start_y = int(y * (tile_size - overlap_y))
-                tiles.append(image[:, start_y:start_y+tile_size, start_x:start_x+tile_size, :])
+                tiles.append(image[:, start_y:start_y + tile_size, start_x:start_x + tile_size, :])
+                mask = base_mask.clone()
                 if attn_mask is not None:
-                    mask = attn_mask[:, start_y:start_y+tile_size, start_x:start_x+tile_size]
+                    mask[:, start_y:start_y + tile_size, start_x:start_x + tile_size] = attn_mask[:,
+                                                                                        start_y:start_y + tile_size,
+                                                                                        start_x:start_x + tile_size]
                 else:
-                    mask = base_mask.clone()
-                    mask[:, start_y:start_y+tile_size, start_x:start_x+tile_size] = 1
+                    mask[:, start_y:start_y + tile_size, start_x:start_x + tile_size] = 1
                 masks.append(mask)
         del mask
 
@@ -752,7 +754,7 @@ class IPAdapterTiledV2:
             # apply the ipadapter to the model without cloning it
             model = ipadapter_execute(model, ipadapter_model, clip_vision, **ipa_args)
 
-        return (model, torch.cat(tiles), torch.cat(masks), )
+        return (model, torch.cat(tiles), torch.cat(masks),)
 
 class IPAdapterTiledBatchV2(IPAdapterTiledV2):
     def __init__(self):
