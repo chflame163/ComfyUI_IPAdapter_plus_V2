@@ -1126,26 +1126,26 @@ NODE_CLASS_MAPPINGS = {
 
 NODE_DISPLAY_NAME_MAPPINGS = {
     # Main Apply Nodes
-    "IPAdapterV2": "IPAdapterV2",
-    "IPAdapterAdvancedV2": "IPAdapter AdvancedV2",
-    "IPAdapterBatchV2": "IPAdapter Batch (Adv.)V2",
-    "IPAdapterFaceIDV2": "IPAdapter FaceIDV2",
-    "IPAAdapterFaceIDBatchV2": "IPAdapter FaceID BatchV2",
-    "IPAdapterTiledV2": "IPAdapter TiledV2",
-    "IPAdapterTiledBatchV2": "IPAdapter Tiled BatchV2",
-    "IPAdapterEmbedsV2": "IPAdapter EmbedsV2",
+    "IPAdapterV2": "IPAdapter V2",
+    "IPAdapterAdvancedV2": "IPAdapter Advanced V2",
+    "IPAdapterBatchV2": "IPAdapter Batch (Adv.) V2",
+    "IPAdapterFaceIDV2": "IPAdapter FaceID V2",
+    "IPAAdapterFaceIDBatchV2": "IPAdapter FaceID Batch V2",
+    "IPAdapterTiledV2": "IPAdapter Tiled V2",
+    "IPAdapterTiledBatchV2": "IPAdapter Tiled Batch V2",
+    "IPAdapterEmbedsV2": "IPAdapter Embeds V2",
 
     # Loaders
-    "IPAdapterUnifiedLoaderV2": "IPAdapter Unified LoaderV2",
-    "IPAdapterUnifiedLoaderFaceIDV2": "IPAdapter Unified Loader FaceIDV2",
-    "IPAdapterModelLoaderV2": "IPAdapter Model LoaderV2",
-    "IPAdapterInsightFaceLoaderV2": "IPAdapter InsightFace LoaderV2",
+    "IPAdapterUnifiedLoaderV2": "IPAdapter Unified Loader V2",
+    "IPAdapterUnifiedLoaderFaceIDV2": "IPAdapter Unified Loader FaceID V2",
+    "IPAdapterModelLoaderV2": "IPAdapter Model Loader V2",
+    "IPAdapterInsightFaceLoaderV2": "IPAdapter InsightFace Loader V2",
 
     # Helpers
-    "IPAdapterEncoderV2": "IPAdapter EncoderV2",
-    "IPAdapterCombineEmbedsV2": "IPAdapter Combine EmbedsV2",
+    "IPAdapterEncoderV2": "IPAdapter Encoder V2",
+    "IPAdapterCombineEmbedsV2": "IPAdapter Combine Embeds V2",
     "IPAdapterNoiseV2": "IPAdapter NoiseV2",
-    "PrepImageForClipVisionV2": "Prep Image For ClipVisionV2",
-    "IPAdapterSaveEmbedsV2": "IPAdapter Save EmbedsV2",
-    "IPAdapterLoadEmbedsV2": "IPAdapter Load EmbedsV2",
+    "PrepImageForClipVisionV2": "Prep Image For ClipVision V2",
+    "IPAdapterSaveEmbedsV2": "IPAdapter Save Embeds V2",
+    "IPAdapterLoadEmbedsV2": "IPAdapter Load Embeds V2",
 }
