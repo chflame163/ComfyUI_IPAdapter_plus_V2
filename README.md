@@ -9,4 +9,4 @@ Thanks to author [Cubiq](https://github.com/cubiq)'s great work, Please support 
 ![image](exampleV2/IPAdapterV2_menu.png)
 ![image](exampleV2/IPAdapterV1&V2.png)
 
-The copy of latest ComfyUI_IPAdapter_plus V1 version is saved on [GoogleDrive](#https://drive.google.com/drive/folders/1DAcDzKcypm3mKH3yjyM2c07b3XqqM07P?usp=sharing) or [BaiduNetdisk](#https://pan.baidu.com/s/1x_SVJIhEzBbENGrlonvtgw?pwd=86gf).    
+The copy of latest ComfyUI_IPAdapter_plus V1 version is saved on [GoogleDrive](https://drive.google.com/drive/folders/1DAcDzKcypm3mKH3yjyM2c07b3XqqM07P?usp=sharing) or [BaiduNetdisk](https://pan.baidu.com/s/1x_SVJIhEzBbENGrlonvtgw?pwd=86gf).    
