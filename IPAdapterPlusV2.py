@@ -346,6 +346,7 @@ class IPAdapterUnifiedLoaderV2:
         self.lora = None
         self.clipvision = { "file": None, "model": None }
         self.ipadapter = { "file": None, "model": None }
+        self.insightface = { "provider": None, "model": None }
 
     @classmethod
     def INPUT_TYPES(s):
@@ -410,6 +411,7 @@ class IPAdapterUnifiedLoaderV2:
 
             if lora_model is None:
                 lora_model = comfy.utils.load_torch_file(lora_file, safe_load=True)
+                self.lora = { 'file': lora_file, 'model': lora_model }
                 print(f"\033[33mINFO: LoRA model loaded from {lora_file}\033[0m")
 
             if lora_strength > 0:
@@ -417,12 +419,15 @@ class IPAdapterUnifiedLoaderV2:
 
         # 4. Load the insightface model if needed
         if is_insightface:
-            if pipeline['insightface']['provider'] != provider:
-                pipeline['insightface']['provider'] = provider
-                pipeline['insightface']['model'] = insightface_loader(provider)
-                print(f"\033[33mINFO: InsightFace model loaded with {provider} provider\033[0m")
+            if provider != self.insightface['provider']:
+                if pipeline['insightface']['provider'] != provider:
+                    self.insightface['provider'] = provider
+                    self.insightface['model'] = insightface_loader(provider)
+                    print(f"\033[33mINFO: InsightFace model loaded with {provider} provider\033[0m")
+                else:
+                    self.insightface = pipeline['insightface']
 
-        return (model, { 'clipvision': self.clipvision, 'ipadapter': self.ipadapter, 'insightface': pipeline['insightface'] }, )
+        return (model, { 'clipvision': self.clipvision, 'ipadapter': self.ipadapter, 'insightface': self.insightface }, )
 
 class IPAdapterUnifiedLoaderFaceIDV2(IPAdapterUnifiedLoaderV2):
     @classmethod
@@ -1022,13 +1027,14 @@ class PrepImageForClipVisionV2:
         output = image.permute([0,3,1,2])
 
         if crop_position == "pad":
-            if oh > ow:
-                pad = (oh - ow) // 2
-                pad = (pad, 0, pad, 0)
-            elif ow > oh:
-                pad = (ow - oh) // 2
-                pad = (0, pad, 0, pad)
-            output = T.functional.pad(output, pad, fill=0)
+            if oh != ow:
+                if oh > ow:
+                    pad = (oh - ow) // 2
+                    pad = (pad, 0, pad, 0)
+                elif ow > oh:
+                    pad = (ow - oh) // 2
+                    pad = (0, pad, 0, pad)
+                output = T.functional.pad(output, pad, fill=0)
         else:
             crop_size = min(oh, ow)
             x = (ow-crop_size) // 2
