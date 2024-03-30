@@ -226,7 +226,7 @@ def ipadapter_execute(model,
             img_uncond_embeds = encode_image_masked(clipvision, image_negative).penultimate_hidden_states
         else:
             img_cond_embeds = img_cond_embeds.image_embeds if not is_faceid else face_cond_embeds
-            if image_negative is not None:
+            if image_negative is not None and not is_faceid:
                 img_uncond_embeds = encode_image_masked(clipvision, image_negative).image_embeds
             else:
                 img_uncond_embeds = torch.zeros_like(img_cond_embeds)
@@ -448,6 +448,17 @@ class IPAdapterUnifiedLoaderFaceIDV2(IPAdapterUnifiedLoaderV2):
         }}
 
     RETURN_NAMES = ("MODEL", "ipadapter", )
+
+class IPAdapterUnifiedLoaderCommunityV2(IPAdapterUnifiedLoaderV2):
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {
+            "model": ("MODEL", ),
+            "preset": (['Composition',], ),
+        },
+        "optional": {
+            "ipadapter": ("IPADAPTER", ),
+        }}
 
 class IPAdapterModelLoaderV2:
     @classmethod
@@ -1140,6 +1151,7 @@ NODE_CLASS_MAPPINGS = {
     "IPAdapterUnifiedLoaderFaceIDV2": IPAdapterUnifiedLoaderFaceIDV2,
     "IPAdapterModelLoaderV2": IPAdapterModelLoaderV2,
     "IPAdapterInsightFaceLoaderV2": IPAdapterInsightFaceLoaderV2,
+    "IPAdapterUnifiedLoaderCommunityV2": IPAdapterUnifiedLoaderCommunityV2,
 
     # Helpers
     "IPAdapterEncoderV2": IPAdapterEncoderV2,
@@ -1166,6 +1178,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "IPAdapterUnifiedLoaderFaceIDV2": "IPAdapter Unified Loader FaceID V2",
     "IPAdapterModelLoaderV2": "IPAdapter Model Loader V2",
     "IPAdapterInsightFaceLoaderV2": "IPAdapter InsightFace Loader V2",
+    "IPAdapterUnifiedLoaderCommunityV2": "IPAdapter Unified Loader Community V2",
 
     # Helpers
     "IPAdapterEncoderV2": "IPAdapter Encoder V2",

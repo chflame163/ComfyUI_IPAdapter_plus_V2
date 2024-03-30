@@ -30,6 +30,7 @@ class_name_mapping_list = [
     "PrepImageForClipVision",
     "IPAdapterSaveEmbeds",
     "IPAdapterLoadEmbeds",
+    "IPAdapterUnifiedLoaderCommunity",
 ]
 
 display_name_mapping_list = [
@@ -51,6 +52,7 @@ display_name_mapping_list = [
     "Prep Image For ClipVision",
     "IPAdapter Save Embeds",
     "IPAdapter Load Embeds",
+    "IPAdapter Unified Loader Community",
 ]
 
 for class_name in class_name_mapping_list:
