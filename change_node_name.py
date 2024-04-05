@@ -31,6 +31,7 @@ class_name_mapping_list = [
     "IPAdapterSaveEmbeds",
     "IPAdapterLoadEmbeds",
     "IPAdapterUnifiedLoaderCommunity",
+    "IPAdapterStyleComposition",
 ]
 
 display_name_mapping_list = [
@@ -53,6 +54,7 @@ display_name_mapping_list = [
     "IPAdapter Save Embeds",
     "IPAdapter Load Embeds",
     "IPAdapter Unified Loader Community",
+    "IPAdapter Style & Composition SDXL",
 ]
 
 for class_name in class_name_mapping_list:
