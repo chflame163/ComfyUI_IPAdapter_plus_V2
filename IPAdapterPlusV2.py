@@ -37,7 +37,7 @@ else:
     current_paths, _ = folder_paths.folder_names_and_paths["ipadapter"]
 folder_paths.folder_names_and_paths["ipadapter"] = (current_paths, folder_paths.supported_pt_extensions)
 
-WEIGHT_TYPES = ["linear", "ease in", "ease out", 'ease in-out', 'reverse in-out', 'weak input', 'weak output', 'weak middle', 'strong middle', 'style transfer (SDXL)', 'composition (SDXL)']
+WEIGHT_TYPES = ["linear", "ease in", "ease out", 'ease in-out', 'reverse in-out', 'weak input', 'weak output', 'weak middle', 'strong middle', 'style transfer', 'composition']
 
 """
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -173,11 +173,6 @@ def ipadapter_execute(model,
     is_faceidv2 = "faceidplusv2" in ipadapter
     output_cross_attention_dim = ipadapter["ip_adapter"]["1.to_k_ip.weight"].shape[1]
     is_sdxl = output_cross_attention_dim == 2048
-
-    if ('(SDXL)' in weight_type or image_composition is not None) and not is_sdxl:
-        raise Exception("Style and Composition transfer are available for SDXL models only")
-        #weight_type = "linear"
-        #print("\033[33mINFO: 'Style Transfer' weight type is only available for SDXL models, falling back to 'linear'.\033[0m")
 
     if is_faceid and not insightface:
         raise Exception("insightface model is required for FaceID models")
@@ -416,7 +411,7 @@ class IPAdapterUnifiedLoaderV2:
                 self.clipvision = pipeline['clipvision']
 
         # 2. Load the ipadapter model
-        is_sdxl = isinstance(model.model, comfy.model_base.SDXL)
+        is_sdxl = isinstance(model.model, (comfy.model_base.SDXL, comfy.model_base.SDXLRefiner, comfy.model_base.SDXL_instructpix2pix))
         ipadapter_file, is_insightface, lora_pattern = get_ipadapter_file(preset, is_sdxl)
         if ipadapter_file is None:
             raise Exception("IPAdapter model not found.")
@@ -477,7 +472,8 @@ class IPAdapterUnifiedLoaderFaceIDV2(IPAdapterUnifiedLoaderV2):
         }}
 
     RETURN_NAMES = ("MODEL", "ipadapter", )
-
+    CATEGORY = "ipadapter/faceid"
+    
 class IPAdapterUnifiedLoaderCommunityV2(IPAdapterUnifiedLoaderV2):
     @classmethod
     def INPUT_TYPES(s):
@@ -488,6 +484,8 @@ class IPAdapterUnifiedLoaderCommunityV2(IPAdapterUnifiedLoaderV2):
         "optional": {
             "ipadapter": ("IPADAPTER", ),
         }}
+    
+    CATEGORY = "ipadapter/loaders"
 
 class IPAdapterModelLoaderV2:
     @classmethod
@@ -496,7 +494,7 @@ class IPAdapterModelLoaderV2:
 
     RETURN_TYPES = ("IPADAPTER",)
     FUNCTION = "load_ipadapter_model"
-    CATEGORY = "ipadapter"
+    CATEGORY = "ipadapter/loaders"
 
     def load_ipadapter_model(self, ipadapter_file):
         ipadapter_file = folder_paths.get_full_path("ipadapter", ipadapter_file)
@@ -513,7 +511,7 @@ class IPAdapterInsightFaceLoaderV2:
 
     RETURN_TYPES = ("INSIGHTFACE",)
     FUNCTION = "load_insightface"
-    CATEGORY = "ipadapter"
+    CATEGORY = "ipadapter/loaders"
 
     def load_insightface(self, provider):
         return (insightface_loader(provider),)
@@ -534,7 +532,7 @@ class IPAdapterSimpleV2:
                 "weight": ("FLOAT", { "default": 1.0, "min": -1, "max": 3, "step": 0.05 }),
                 "start_at": ("FLOAT", { "default": 0.0, "min": 0.0, "max": 1.0, "step": 0.001 }),
                 "end_at": ("FLOAT", { "default": 1.0, "min": 0.0, "max": 1.0, "step": 0.001 }),
-                "weight_type": (['standard', 'prompt is more important', 'style transfer (SDXL only)'], ),
+                "weight_type": (['standard', 'prompt is more important', 'style transfer'], ),
             },
             "optional": {
                 "attn_mask": ("MASK",),
@@ -546,8 +544,11 @@ class IPAdapterSimpleV2:
     CATEGORY = "ipadapter"
 
     def apply_ipadapter(self, model, ipadapter, image, weight, start_at, end_at, weight_type, attn_mask=None):
-        if weight_type == "style transfer (SDXL only)":
-            weight_type = "style transfer (SDXL)"
+        is_sdxl = isinstance(model.model, (comfy.model_base.SDXL, comfy.model_base.SDXLRefiner, comfy.model_base.SDXL_instructpix2pix))
+
+        if weight_type.startswith("style"):
+            weight_type = "style transfer"
+            weight = { 6:weight } if is_sdxl else { 0:weight, 1:weight, 2:weight, 3:weight, 9:weight, 10:weight, 11:weight, 12:weight, 13:weight, 14:weight, 15:weight }
         elif weight_type == "prompt is more important":
             weight_type = "ease out"
         else:
@@ -600,13 +601,30 @@ class IPAdapterAdvancedV2:
     CATEGORY = "ipadapter"
 
     def apply_ipadapter(self, model, ipadapter, start_at, end_at, weight = 1.0, weight_style=1.0, weight_composition=1.0, expand_style=False, weight_type="linear", combine_embeds="concat", weight_faceidv2=None, image=None, image_style=None, image_composition=None, image_negative=None, clip_vision=None, attn_mask=None, insightface=None, embeds_scaling='V only'):
-        if image_style is not None:
+        is_sdxl = isinstance(model.model, (comfy.model_base.SDXL, comfy.model_base.SDXLRefiner, comfy.model_base.SDXL_instructpix2pix))
+
+        if image_style is not None: # we are doing style + composition transfer
+            if not is_sdxl:
+                raise Exception("Style + Composition transfer is only available for SDXL models at the moment.") # TODO: check feasibility for SD1.5 models
+
             image = image_style
-            if image_composition is not None:
-                if expand_style:
-                    weight = { 0: weight_style, 1: weight_style, 2: weight_style, 3: weight_composition, 4: weight_style, 5: weight_style, 6: weight_style, 7: weight_style, 8: weight_style, 9: weight_style, 10: weight_style }
+            if image_composition is None:
+                image_composition = image_style
+
+            if expand_style:
+                if is_sdxl:
+                    weight = { 0:weight_style, 1:weight_style, 2:weight_style, 3:weight_composition, 4:weight_style, 5:weight_style, 6:weight_style, 7:weight_style, 8:weight_style, 9:weight_style, 10:weight_style }
                 else:
-                    weight = { 3: weight_composition, 6: weight_style }
+                    weight = { 0:weight_style, 1:weight_style, 2:weight_style, 3:weight_style, 4:weight_composition, 5:weight_composition, 6:weight_style, 7:weight_style, 8:weight_style, 9:weight_style, 10:weight_style, 11:weight_style, 12:weight_style, 13:weight_style, 14:weight_style, 15:weight_style }
+            else:
+                if is_sdxl:
+                    weight = { 3:weight_composition, 6:weight_style }
+                else:
+                    weight = { 0:weight_style, 1:weight_style, 2:weight_style, 3:weight_style, 4:weight_composition/4, 5:weight_composition, 9:weight_style, 10:weight_style, 11:weight_style, 12:weight_style, 13:weight_style, 14:weight_style, 15:weight_style }
+        elif weight_type.startswith("style transfer"):
+            weight = { 6:weight } if is_sdxl else { 0:weight, 1:weight, 2:weight, 3:weight, 9:weight, 10:weight, 11:weight, 12:weight, 13:weight, 14:weight, 15:weight }
+        elif weight_type.startswith("composition"):
+            weight = { 3:weight } if is_sdxl else { 4:weight/4, 5:weight }
 
         ipa_args = {
             "image": image,
@@ -685,7 +703,35 @@ class IPAdapterStyleCompositionV2(IPAdapterAdvancedV2):
                 "clip_vision": ("CLIP_VISION",),
             }
         }
+    
+    CATEGORY = "ipadapter/style_composition"
 
+class IPAdapterStyleCompositionBatchV2(IPAdapterStyleCompositionV2):
+    def __init__(self):
+        self.unfold_batch = True
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "model": ("MODEL", ),
+                "ipadapter": ("IPADAPTER", ),
+                "image_style": ("IMAGE",),
+                "image_composition": ("IMAGE",),
+                "weight_style": ("FLOAT", { "default": 1.0, "min": -1, "max": 5, "step": 0.05 }),
+                "weight_composition": ("FLOAT", { "default": 1.0, "min": -1, "max": 5, "step": 0.05 }),
+                "expand_style": ("BOOLEAN", { "default": False }),
+                "start_at": ("FLOAT", { "default": 0.0, "min": 0.0, "max": 1.0, "step": 0.001 }),
+                "end_at": ("FLOAT", { "default": 1.0, "min": 0.0, "max": 1.0, "step": 0.001 }),
+                "embeds_scaling": (['V only', 'K+V', 'K+V w/ C penalty', 'K+mean(V) w/ C penalty'], ),
+            },
+            "optional": {
+                "image_negative": ("IMAGE",),
+                "attn_mask": ("MASK",),
+                "clip_vision": ("CLIP_VISION",),
+            }
+        }
+    
 class IPAdapterFaceIDV2(IPAdapterAdvancedV2):
     @classmethod
     def INPUT_TYPES(s):
@@ -709,6 +755,8 @@ class IPAdapterFaceIDV2(IPAdapterAdvancedV2):
                 "insightface": ("INSIGHTFACE",),
             }
         }
+    
+    CATEGORY = "ipadapter/faceid"
 
 class IPAAdapterFaceIDBatchV2(IPAdapterFaceIDV2):
     def __init__(self):
@@ -743,7 +791,7 @@ class IPAdapterTiledV2:
     RETURN_TYPES = ("MODEL", "IMAGE", "MASK", )
     RETURN_NAMES = ("MODEL", "tiles", "masks", )
     FUNCTION = "apply_tiled"
-    CATEGORY = "ipadapter"
+    CATEGORY = "ipadapter/tiled"
 
     def apply_tiled(self, model, ipadapter, image, weight, weight_type, start_at, end_at, sharpening, combine_embeds="concat", image_negative=None, attn_mask=None, clip_vision=None, embeds_scaling='V only'):
         # 1. Select the models
@@ -897,7 +945,7 @@ class IPAdapterEmbedsV2:
 
     RETURN_TYPES = ("MODEL",)
     FUNCTION = "apply_ipadapter"
-    CATEGORY = "ipadapter"
+    CATEGORY = "ipadapter/embeds"
 
     def apply_ipadapter(self, model, ipadapter, pos_embed, weight, weight_type, start_at, end_at, neg_embed=None, attn_mask=None, clip_vision=None, embeds_scaling='V only'):
         ipa_args = {
@@ -947,7 +995,7 @@ class IPAdapterEncoderV2:
     RETURN_TYPES = ("EMBEDS", "EMBEDS",)
     RETURN_NAMES = ("pos_embed", "neg_embed",)
     FUNCTION = "encode"
-    CATEGORY = "ipadapter"
+    CATEGORY = "ipadapter/embeds"
 
     def encode(self, ipadapter, image, weight, mask=None, clip_vision=None):
         if 'ipadapter' in ipadapter:
@@ -1002,7 +1050,7 @@ class IPAdapterCombineEmbedsV2:
 
     RETURN_TYPES = ("EMBEDS",)
     FUNCTION = "batch"
-    CATEGORY = "ipadapter"
+    CATEGORY = "ipadapter/embeds"
 
     def batch(self, embed1, method, embed2=None, embed3=None, embed4=None, embed5=None):
         if method=='concat' and embed2 is None and embed3 is None and embed4 is None and embed5 is None:
@@ -1044,7 +1092,7 @@ class IPAdapterNoiseV2:
 
     RETURN_TYPES = ("IMAGE",)
     FUNCTION = "make_noise"
-    CATEGORY = "ipadapter"
+    CATEGORY = "ipadapter/utils"
 
     def make_noise(self, type, strength, blur, image_optional=None):
         if image_optional is None:
@@ -1103,7 +1151,7 @@ class PrepImageForClipVisionV2:
     RETURN_TYPES = ("IMAGE",)
     FUNCTION = "prep_image"
 
-    CATEGORY = "ipadapter"
+    CATEGORY = "ipadapter/utils"
 
     def prep_image(self, image, interpolation="LANCZOS", crop_position="center", sharpening=0.0):
         size = (224, 224)
@@ -1167,7 +1215,7 @@ class IPAdapterSaveEmbedsV2:
     RETURN_TYPES = ()
     FUNCTION = "save"
     OUTPUT_NODE = True
-    CATEGORY = "ipadapter"
+    CATEGORY = "ipadapter/embeds"
 
     def save(self, embeds, filename_prefix):
         full_output_folder, filename, counter, subfolder, filename_prefix = folder_paths.get_save_image_path(filename_prefix, self.output_dir)
@@ -1186,7 +1234,7 @@ class IPAdapterLoadEmbedsV2:
 
     RETURN_TYPES = ("EMBEDS", )
     FUNCTION = "load"
-    CATEGORY = "ipadapter"
+    CATEGORY = "ipadapter/embeds"
 
     def load(self, embeds):
         path = folder_paths.get_annotated_filepath(embeds)
@@ -1208,6 +1256,7 @@ NODE_CLASS_MAPPINGS = {
     "IPAdapterTiledBatchV2": IPAdapterTiledBatchV2,
     "IPAdapterEmbedsV2": IPAdapterEmbedsV2,
     "IPAdapterStyleCompositionV2": IPAdapterStyleCompositionV2,
+    "IPAdapterStyleCompositionBatchV2": IPAdapterStyleCompositionBatchV2,
 
     # Loaders
     "IPAdapterUnifiedLoaderV2": IPAdapterUnifiedLoaderV2,
@@ -1236,6 +1285,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "IPAdapterTiledBatchV2": "IPAdapter Tiled Batch V2",
     "IPAdapterEmbedsV2": "IPAdapter Embeds V2",
     "IPAdapterStyleCompositionV2": "IPAdapter Style & Composition SDXL V2",
+    "IPAdapterStyleCompositionBatchV2": "IPAdapter Style & Composition Batch SDXL V2",
 
     # Loaders
     "IPAdapterUnifiedLoaderV2": "IPAdapter Unified Loader V2",
