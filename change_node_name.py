@@ -35,6 +35,9 @@ class_name_mapping_list = [
     "IPAdapterStyleCompositionBatch",
     "IPAdapterMS",
     "IPAdapterWeights",
+    "IPAdapterRegionalConditioning",
+    "IPAdapterCombineParams",
+    "IPAdapterFromParams",
 ]
 
 display_name_mapping_list = [
@@ -61,6 +64,9 @@ display_name_mapping_list = [
     "IPAdapter Style & Composition Batch SDXL",
     "IPAdapter Mad Scientist",
     "IPAdapter Weights",
+    "IPAdapter Regional Conditioning",
+    "IPAdapter Combine Params",
+    "IPAdapter from Params",
 ]
 
 for class_name in class_name_mapping_list:
