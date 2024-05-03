@@ -38,6 +38,9 @@ class_name_mapping_list = [
     "IPAdapterRegionalConditioning",
     "IPAdapterCombineParams",
     "IPAdapterFromParams",
+    "IPAdapterWeightsFromStrategy",
+    "IPAdapterPromptScheduleFromWeightsStrategy",
+    "IPAdapterCombineWeights"
 ]
 
 display_name_mapping_list = [
@@ -67,6 +70,9 @@ display_name_mapping_list = [
     "IPAdapter Regional Conditioning",
     "IPAdapter Combine Params",
     "IPAdapter from Params",
+    "IPAdapter Weights From Strategy",
+    "Prompt Schedule From Weights Strategy",
+    "IPAdapter Combine Weights"
 ]
 
 for class_name in class_name_mapping_list:
