@@ -12,7 +12,8 @@ with open(orig_file_path, "r") as f:
     content = f.read()
 
 class_name_mapping_list = [
-    "IPAdapter","IPAdapterSimple",
+    "IPAdapter",
+    "IPAdapterSimple",
     "IPAdapterAdvanced",
     "IPAdapterBatch",
     "IPAdapterFaceID",
@@ -40,7 +41,8 @@ class_name_mapping_list = [
     "IPAdapterFromParams",
     "IPAdapterWeightsFromStrategy",
     "IPAdapterPromptScheduleFromWeightsStrategy",
-    "IPAdapterCombineWeights"
+    "IPAdapterCombineWeights",
+    "IPAdapterEmbedsBatch"
 ]
 
 display_name_mapping_list = [
@@ -72,7 +74,8 @@ display_name_mapping_list = [
     "IPAdapter from Params",
     "IPAdapter Weights From Strategy",
     "Prompt Schedule From Weights Strategy",
-    "IPAdapter Combine Weights"
+    "IPAdapter Combine Weights",
+    "IPAdapter Embeds Batch"
 ]
 
 for class_name in class_name_mapping_list:
