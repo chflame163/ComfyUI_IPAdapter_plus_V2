@@ -179,7 +179,7 @@
     },
     {
       "id": 19,
-      "type": "IPAdapterBatch",
+      "type": "IPAdapterBatchV2",
       "pos": [
         1173,
         251
@@ -244,7 +244,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterBatch"
+        "Node name for S&R": "IPAdapterBatchV2"
       },
       "widgets_values": [
         1,
@@ -256,7 +256,7 @@
     },
     {
       "id": 18,
-      "type": "IPAdapterUnifiedLoader",
+      "type": "IPAdapterUnifiedLoaderV2",
       "pos": [
         303,
         132
@@ -300,7 +300,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterUnifiedLoader"
+        "Node name for S&R": "IPAdapterUnifiedLoaderV2"
       },
       "widgets_values": [
         "PLUS (high strength)"
@@ -356,7 +356,7 @@
     },
     {
       "id": 17,
-      "type": "PrepImageForClipVision",
+      "type": "PrepImageForClipVisionV2",
       "pos": [
         788,
         43
@@ -387,7 +387,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "PrepImageForClipVision"
+        "Node name for S&R": "PrepImageForClipVisionV2"
       },
       "widgets_values": [
         "LANCZOS",
@@ -418,7 +418,7 @@
       ],
       "properties": {},
       "widgets_values": [
-        "IPAdapter"
+        "IPAdapterV2"
       ]
     },
     {
@@ -542,7 +542,7 @@
     },
     {
       "id": 22,
-      "type": "IPAdapterWeights",
+      "type": "IPAdapterWeightsV2",
       "pos": [
         761,
         208
@@ -605,7 +605,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterWeights"
+        "Node name for S&R": "IPAdapterWeightsV2"
       },
       "widgets_values": [
         "1.0, 0.0",

@@ -172,7 +172,7 @@
     },
     {
       "id": 22,
-      "type": "IPAdapterUnifiedLoader",
+      "type": "IPAdapterUnifiedLoaderV2",
       "pos": [
         855,
         51
@@ -216,7 +216,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterUnifiedLoader"
+        "Node name for S&R": "IPAdapterUnifiedLoaderV2"
       },
       "widgets_values": [
         "FULL FACE - SD1.5 only (portraits stronger)"
@@ -224,7 +224,7 @@
     },
     {
       "id": 21,
-      "type": "IPAdapter",
+      "type": "IPAdapterV2",
       "pos": [
         1280,
         170
@@ -271,7 +271,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapter"
+        "Node name for S&R": "IPAdapterV2"
       },
       "widgets_values": [
         0.4,
@@ -282,7 +282,7 @@
     },
     {
       "id": 20,
-      "type": "IPAdapterUnifiedLoaderFaceID",
+      "type": "IPAdapterUnifiedLoaderFaceIDV2",
       "pos": [
         457,
         57
@@ -328,7 +328,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterUnifiedLoaderFaceID"
+        "Node name for S&R": "IPAdapterUnifiedLoaderFaceIDV2"
       },
       "widgets_values": [
         "FACEID PLUS V2",
@@ -705,7 +705,7 @@
     },
     {
       "id": 18,
-      "type": "IPAdapterFaceID",
+      "type": "IPAdapterFaceIDV2",
       "pos": [
         850,
         190
@@ -776,7 +776,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterFaceID"
+        "Node name for S&R": "IPAdapterFaceIDV2"
       },
       "widgets_values": [
         0.8,

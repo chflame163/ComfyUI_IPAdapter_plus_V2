@@ -2,14 +2,17 @@
 by chflame@163.com'''
 
 import os
+import glob
 
+# py file
 orig_file_name = 'IPAdapterPlus.py'
 dist_file_name = 'IPAdapterPlusV2.py'
 orig_file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), orig_file_name)
 dist_file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), dist_file_name)
+# json files
+json_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "examples")
+json_file_list = glob.glob(json_path + '/*.json')
 
-with open(orig_file_path, "r") as f:
-    content = f.read()
 
 class_name_mapping_list = [
     "IPAdapter",
@@ -78,18 +81,36 @@ display_name_mapping_list = [
     "IPAdapter Embeds Batch"
 ]
 
-for class_name in class_name_mapping_list:
-    content = content.replace(f'"{class_name}":', f'"{class_name}V2":')
-    content = content.replace(f'class {class_name}:', f'class {class_name}V2:')
-    content = content.replace(f'class {class_name}(', f'class {class_name}V2(')
-    content = content.replace(f'": {class_name},', f'": {class_name}V2,')
-    content = content.replace(f'({class_name}):', f'({class_name}V2):')
-    content = content.replace(f'class IPAdapterV2(nn.Module):', f'class IPAdapter(nn.Module):')
+def change_node_name():
+    if os.path.exists(orig_file_path):
+        with open(orig_file_path, "r") as f:
+            content = f.read()
+        for class_name in class_name_mapping_list:
+            content = content.replace(f'"{class_name}":', f'"{class_name}V2":')
+            content = content.replace(f'class {class_name}:', f'class {class_name}V2:')
+            content = content.replace(f'class {class_name}(', f'class {class_name}V2(')
+            content = content.replace(f'": {class_name},', f'": {class_name}V2,')
+            content = content.replace(f'({class_name}):', f'({class_name}V2):')
+            content = content.replace(f'class IPAdapterV2(nn.Module):', f'class IPAdapter(nn.Module):')
 
-for display_name in display_name_mapping_list:
-    content = content.replace(f': "{display_name}",', f': "{display_name} V2",')
+        for display_name in display_name_mapping_list:
+            content = content.replace(f': "{display_name}",', f': "{display_name} V2",')
 
-with open(dist_file_path, 'w') as f:
-    f.write(content)
+        with open(dist_file_path, 'w') as f:
+            f.write(content)
 
-os.remove(orig_file_path)
+        os.remove(orig_file_path)
+
+def change_json_name():
+    for i in json_file_list:
+        with open(i, "r") as f:
+            content = f.read()
+        for class_name in class_name_mapping_list:
+            content = content.replace(f'"{class_name}"', f'"{class_name}V2"')
+            # print(f'replace "{class_name}" to "{class_name}V2"')
+        with open(i, 'w') as f:
+            f.write(content)
+        print(f"Change {i} node name to V2, done.")
+
+change_node_name()
+change_json_name()

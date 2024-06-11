@@ -239,7 +239,7 @@
     },
     {
       "id": 87,
-      "type": "IPAdapterCombineParams",
+      "type": "IPAdapterCombineParamsV2",
       "pos": [
         1547,
         291
@@ -290,12 +290,12 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterCombineParams"
+        "Node name for S&R": "IPAdapterCombineParamsV2"
       }
     },
     {
       "id": 91,
-      "type": "IPAdapterFromParams",
+      "type": "IPAdapterFromParamsV2",
       "pos": [
         1968,
         258
@@ -347,7 +347,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterFromParams"
+        "Node name for S&R": "IPAdapterFromParamsV2"
       },
       "widgets_values": [
         "concat",
@@ -472,7 +472,7 @@
     },
     {
       "id": 80,
-      "type": "IPAdapterRegionalConditioning",
+      "type": "IPAdapterRegionalConditioningV2",
       "pos": [
         980,
         470
@@ -536,7 +536,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterRegionalConditioning"
+        "Node name for S&R": "IPAdapterRegionalConditioningV2"
       },
       "widgets_values": [
         0.7000000000000001,
@@ -548,7 +548,7 @@
     },
     {
       "id": 81,
-      "type": "IPAdapterRegionalConditioning",
+      "type": "IPAdapterRegionalConditioningV2",
       "pos": [
         980,
         850
@@ -606,7 +606,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterRegionalConditioning"
+        "Node name for S&R": "IPAdapterRegionalConditioningV2"
       },
       "widgets_values": [
         0.7000000000000001,
@@ -658,7 +658,7 @@
     },
     {
       "id": 79,
-      "type": "IPAdapterRegionalConditioning",
+      "type": "IPAdapterRegionalConditioningV2",
       "pos": [
         980,
         110
@@ -722,7 +722,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterRegionalConditioning"
+        "Node name for S&R": "IPAdapterRegionalConditioningV2"
       },
       "widgets_values": [
         0.7000000000000001,
@@ -1156,7 +1156,7 @@
     },
     {
       "id": 92,
-      "type": "IPAdapterUnifiedLoader",
+      "type": "IPAdapterUnifiedLoaderV2",
       "pos": [
         1539,
         91
@@ -1200,7 +1200,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterUnifiedLoader"
+        "Node name for S&R": "IPAdapterUnifiedLoaderV2"
       },
       "widgets_values": [
         "PLUS (high strength)"

@@ -73,7 +73,7 @@
       ],
       "properties": {},
       "widgets_values": [
-        "IPAdapter"
+        "IPAdapterV2"
       ]
     },
     {
@@ -286,7 +286,7 @@
     },
     {
       "id": 14,
-      "type": "IPAdapterAdvanced",
+      "type": "IPAdapterAdvancedV2",
       "pos": [
         801,
         256
@@ -344,7 +344,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterAdvanced"
+        "Node name for S&R": "IPAdapterAdvancedV2"
       },
       "widgets_values": [
         0.8,
@@ -357,7 +357,7 @@
     },
     {
       "id": 17,
-      "type": "PrepImageForClipVision",
+      "type": "PrepImageForClipVisionV2",
       "pos": [
         797,
         87
@@ -388,7 +388,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "PrepImageForClipVision"
+        "Node name for S&R": "PrepImageForClipVisionV2"
       },
       "widgets_values": [
         "LANCZOS",
@@ -398,7 +398,7 @@
     },
     {
       "id": 15,
-      "type": "IPAdapterModelLoader",
+      "type": "IPAdapterModelLoaderV2",
       "pos": [
         308,
         52
@@ -421,7 +421,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterModelLoader"
+        "Node name for S&R": "IPAdapterModelLoaderV2"
       },
       "widgets_values": [
         "ip-adapter-plus_sd15.safetensors"

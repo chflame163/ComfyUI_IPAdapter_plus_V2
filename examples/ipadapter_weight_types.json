@@ -174,7 +174,7 @@
     },
     {
       "id": 15,
-      "type": "IPAdapterModelLoader",
+      "type": "IPAdapterModelLoaderV2",
       "pos": [
         308,
         52
@@ -201,7 +201,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterModelLoader"
+        "Node name for S&R": "IPAdapterModelLoaderV2"
       },
       "widgets_values": [
         "ip-adapter-plus_sd15.safetensors"
@@ -332,7 +332,7 @@
       ],
       "properties": {},
       "widgets_values": [
-        "IPAdapter"
+        "IPAdapterV2"
       ]
     },
     {
@@ -497,12 +497,12 @@
       ],
       "properties": {},
       "widgets_values": [
-        "IPAdapter"
+        "IPAdapterV2"
       ]
     },
     {
       "id": 14,
-      "type": "IPAdapterAdvanced",
+      "type": "IPAdapterAdvancedV2",
       "pos": [
         1290,
         250
@@ -560,7 +560,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterAdvanced"
+        "Node name for S&R": "IPAdapterAdvancedV2"
       },
       "widgets_values": [
         0.8,
@@ -572,7 +572,7 @@
     },
     {
       "id": 21,
-      "type": "IPAdapterAdvanced",
+      "type": "IPAdapterAdvancedV2",
       "pos": [
         1280,
         900
@@ -630,7 +630,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterAdvanced"
+        "Node name for S&R": "IPAdapterAdvancedV2"
       },
       "widgets_values": [
         0.8,
@@ -741,7 +741,7 @@
     },
     {
       "id": 25,
-      "type": "IPAdapterAdvanced",
+      "type": "IPAdapterAdvancedV2",
       "pos": [
         1280,
         1540
@@ -799,7 +799,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterAdvanced"
+        "Node name for S&R": "IPAdapterAdvancedV2"
       },
       "widgets_values": [
         0.8,
@@ -832,7 +832,7 @@
       ],
       "properties": {},
       "widgets_values": [
-        "IPAdapter"
+        "IPAdapterV2"
       ]
     },
     {
@@ -898,7 +898,7 @@
       ],
       "properties": {},
       "widgets_values": [
-        "IPAdapter"
+        "IPAdapterV2"
       ]
     },
     {
@@ -1023,7 +1023,7 @@
       ],
       "properties": {},
       "widgets_values": [
-        "IPAdapter"
+        "IPAdapterV2"
       ]
     },
     {
@@ -1087,7 +1087,7 @@
     },
     {
       "id": 29,
-      "type": "IPAdapterAdvanced",
+      "type": "IPAdapterAdvancedV2",
       "pos": [
         3220,
         310
@@ -1145,7 +1145,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterAdvanced"
+        "Node name for S&R": "IPAdapterAdvancedV2"
       },
       "widgets_values": [
         0.8,
@@ -1157,7 +1157,7 @@
     },
     {
       "id": 33,
-      "type": "IPAdapterAdvanced",
+      "type": "IPAdapterAdvancedV2",
       "pos": [
         3210,
         960
@@ -1215,7 +1215,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterAdvanced"
+        "Node name for S&R": "IPAdapterAdvancedV2"
       },
       "widgets_values": [
         0.8,

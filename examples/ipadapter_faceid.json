@@ -157,7 +157,7 @@
       ],
       "properties": {},
       "widgets_values": [
-        "IPAdapter"
+        "IPAdapterV2"
       ]
     },
     {
@@ -201,7 +201,7 @@
     },
     {
       "id": 20,
-      "type": "IPAdapterUnifiedLoaderFaceID",
+      "type": "IPAdapterUnifiedLoaderFaceIDV2",
       "pos": [
         460,
         60
@@ -245,7 +245,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterUnifiedLoaderFaceID"
+        "Node name for S&R": "IPAdapterUnifiedLoaderFaceIDV2"
       },
       "widgets_values": [
         "FACEID PLUS V2",
@@ -379,7 +379,7 @@
     },
     {
       "id": 18,
-      "type": "IPAdapterFaceID",
+      "type": "IPAdapterFaceIDV2",
       "pos": [
         850,
         190
@@ -441,7 +441,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterFaceID"
+        "Node name for S&R": "IPAdapterFaceIDV2"
       },
       "widgets_values": [
         1,

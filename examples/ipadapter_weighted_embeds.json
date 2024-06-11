@@ -111,7 +111,7 @@
       ],
       "properties": {},
       "widgets_values": [
-        "IPAdapter"
+        "IPAdapterV2"
       ]
     },
     {
@@ -267,7 +267,7 @@
     },
     {
       "id": 11,
-      "type": "IPAdapterUnifiedLoader",
+      "type": "IPAdapterUnifiedLoaderV2",
       "pos": [
         440,
         440
@@ -314,7 +314,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterUnifiedLoader"
+        "Node name for S&R": "IPAdapterUnifiedLoaderV2"
       },
       "widgets_values": [
         "PLUS (high strength)"
@@ -419,7 +419,7 @@
     },
     {
       "id": 17,
-      "type": "IPAdapterEncoder",
+      "type": "IPAdapterEncoderV2",
       "pos": [
         859,
         69
@@ -471,7 +471,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterEncoder"
+        "Node name for S&R": "IPAdapterEncoderV2"
       },
       "widgets_values": [
         1.5
@@ -479,7 +479,7 @@
     },
     {
       "id": 18,
-      "type": "IPAdapterCombineEmbeds",
+      "type": "IPAdapterCombineEmbedsV2",
       "pos": [
         1136,
         -95
@@ -530,7 +530,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterCombineEmbeds"
+        "Node name for S&R": "IPAdapterCombineEmbedsV2"
       },
       "widgets_values": [
         "average"
@@ -538,7 +538,7 @@
     },
     {
       "id": 14,
-      "type": "IPAdapterEmbeds",
+      "type": "IPAdapterEmbedsV2",
       "pos": [
         1143,
         160
@@ -594,7 +594,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterEmbeds"
+        "Node name for S&R": "IPAdapterEmbedsV2"
       },
       "widgets_values": [
         0.8,
@@ -605,7 +605,7 @@
     },
     {
       "id": 16,
-      "type": "IPAdapterEncoder",
+      "type": "IPAdapterEncoderV2",
       "pos": [
         863,
         -285
@@ -660,7 +660,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterEncoder"
+        "Node name for S&R": "IPAdapterEncoderV2"
       },
       "widgets_values": [
         0.6

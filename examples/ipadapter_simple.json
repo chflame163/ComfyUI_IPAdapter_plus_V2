@@ -4,7 +4,7 @@
   "nodes": [
     {
       "id": 11,
-      "type": "IPAdapterUnifiedLoader",
+      "type": "IPAdapterUnifiedLoaderV2",
       "pos": [
         440,
         440
@@ -49,7 +49,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterUnifiedLoader"
+        "Node name for S&R": "IPAdapterUnifiedLoaderV2"
       },
       "widgets_values": [
         "PLUS (high strength)"
@@ -240,7 +240,7 @@
     },
     {
       "id": 10,
-      "type": "IPAdapter",
+      "type": "IPAdapterV2",
       "pos": [
         820,
         350
@@ -287,7 +287,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapter"
+        "Node name for S&R": "IPAdapterV2"
       },
       "widgets_values": [
         0.8,
@@ -318,7 +318,7 @@
       ],
       "properties": {},
       "widgets_values": [
-        "IPAdapter"
+        "IPAdapterV2"
       ]
     },
     {

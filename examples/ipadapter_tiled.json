@@ -331,7 +331,7 @@
     },
     {
       "id": 15,
-      "type": "IPAdapterModelLoader",
+      "type": "IPAdapterModelLoaderV2",
       "pos": [
         250,
         70
@@ -355,7 +355,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterModelLoader"
+        "Node name for S&R": "IPAdapterModelLoaderV2"
       },
       "widgets_values": [
         "ip-adapter-plus_sd15.safetensors"
@@ -363,7 +363,7 @@
     },
     {
       "id": 18,
-      "type": "IPAdapterTiled",
+      "type": "IPAdapterTiledV2",
       "pos": [
         700,
         230
@@ -431,7 +431,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "IPAdapterTiled"
+        "Node name for S&R": "IPAdapterTiledV2"
       },
       "widgets_values": [
         0.7000000000000001,
@@ -465,7 +465,7 @@
       ],
       "properties": {},
       "widgets_values": [
-        "IPAdapter"
+        "IPAdapterV2"
       ]
     }
   ],
