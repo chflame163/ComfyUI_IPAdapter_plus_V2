@@ -1,5 +1,5 @@
 {
-  "last_node_id": 16,
+  "last_node_id": 17,
   "last_link_id": 20,
   "nodes": [
     {
@@ -71,92 +71,6 @@
         512,
         512,
         1
-      ]
-    },
-    {
-      "id": 15,
-      "type": "IPAdapterMSV2",
-      "pos": [
-        1280,
-        210
-      ],
-      "size": {
-        "0": 400,
-        "1": 364
-      },
-      "flags": {},
-      "order": 10,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 16
-        },
-        {
-          "name": "ipadapter",
-          "type": "IPADAPTER",
-          "link": 17,
-          "slot_index": 1
-        },
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "link": 18,
-          "slot_index": 2
-        },
-        {
-          "name": "image_negative",
-          "type": "IMAGE",
-          "link": null
-        },
-        {
-          "name": "attn_mask",
-          "type": "MASK",
-          "link": null
-        },
-        {
-          "name": "clip_vision",
-          "type": "CLIP_VISION",
-          "link": null
-        },
-        {
-          "name": "insightface",
-          "type": "INSIGHTFACE",
-          "link": null
-        },
-        {
-          "name": "layer_weights",
-          "type": "STRING",
-          "link": 20,
-          "widget": {
-            "name": "layer_weights"
-          }
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            19
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IPAdapterMSV2"
-      },
-      "widgets_values": [
-        1,
-        1,
-        "linear",
-        "concat",
-        0,
-        1,
-        "V only",
-        ""
       ]
     },
     {
@@ -674,6 +588,92 @@
         "normal",
         1
       ]
+    },
+    {
+      "id": 15,
+      "type": "IPAdapterMSV2",
+      "pos": [
+        1278,
+        209
+      ],
+      "size": {
+        "0": 400,
+        "1": 364
+      },
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 16
+        },
+        {
+          "name": "ipadapter",
+          "type": "IPADAPTER",
+          "link": 17,
+          "slot_index": 1
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 18,
+          "slot_index": 2
+        },
+        {
+          "name": "image_negative",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "attn_mask",
+          "type": "MASK",
+          "link": null
+        },
+        {
+          "name": "clip_vision",
+          "type": "CLIP_VISION",
+          "link": null
+        },
+        {
+          "name": "insightface",
+          "type": "INSIGHTFACE",
+          "link": null
+        },
+        {
+          "name": "layer_weights",
+          "type": "STRING",
+          "link": 20,
+          "widget": {
+            "name": "layer_weights"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            19
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IPAdapterMSV2"
+      },
+      "widgets_values": [
+        1,
+        1,
+        "linear",
+        "concat",
+        0,
+        1,
+        "V only",
+        ""
+      ]
     }
   ],
   "links": [
@@ -826,11 +826,11 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.8264462809917354,
-      "offset": [
-        490.0393848936736,
-        -36.64464697996769
-      ]
+      "scale": 0.7247295000000007,
+      "offset": {
+        "0": 668.0740966796875,
+        "1": 143.1909942626953
+      }
     }
   },
   "version": 0.4
