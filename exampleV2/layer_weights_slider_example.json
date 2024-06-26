@@ -102,44 +102,6 @@
       ]
     },
     {
-      "id": 13,
-      "type": "LoadImage",
-      "pos": [
-        280,
-        1260
-      ],
-      "size": {
-        "0": 315,
-        "1": 314
-      },
-      "flags": {},
-      "order": 1,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            15
-          ],
-          "shape": 3
-        },
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoadImage"
-      },
-      "widgets_values": [
-        "swk.jpg",
-        "image"
-      ]
-    },
-    {
       "id": 14,
       "type": "LoadImage",
       "pos": [
@@ -151,7 +113,7 @@
         "1": 314
       },
       "flags": {},
-      "order": 2,
+      "order": 1,
       "mode": 0,
       "outputs": [
         {
@@ -190,7 +152,7 @@
         "1": 98
       },
       "flags": {},
-      "order": 3,
+      "order": 2,
       "mode": 0,
       "outputs": [
         {
@@ -227,49 +189,6 @@
       ]
     },
     {
-      "id": 16,
-      "type": "IPAdapterLayerWeightsSlider",
-      "pos": [
-        1610,
-        1260
-      ],
-      "size": {
-        "0": 499.1185302734375,
-        "1": 322
-      },
-      "flags": {},
-      "order": 4,
-      "mode": 0,
-      "outputs": [
-        {
-          "name": "layer_weights",
-          "type": "STRING",
-          "links": [
-            20
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IPAdapterLayerWeightsSlider"
-      },
-      "widgets_values": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0
-      ]
-    },
-    {
       "id": 11,
       "type": "IPAdapterLayerWeightsSlider",
       "pos": [
@@ -278,10 +197,10 @@
       ],
       "size": {
         "0": 499.1185302734375,
-        "1": 322
+        "1": 346
       },
       "flags": {},
-      "order": 5,
+      "order": 3,
       "mode": 0,
       "outputs": [
         {
@@ -309,7 +228,8 @@
         0,
         0,
         0,
-        0
+        0,
+        1
       ]
     },
     {
@@ -674,6 +594,88 @@
         "V only",
         ""
       ]
+    },
+    {
+      "id": 16,
+      "type": "IPAdapterLayerWeightsSlider",
+      "pos": [
+        1610,
+        1260
+      ],
+      "size": {
+        "0": 499.1185302734375,
+        "1": 346
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "layer_weights",
+          "type": "STRING",
+          "links": [
+            20
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IPAdapterLayerWeightsSlider"
+      },
+      "widgets_values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": 13,
+      "type": "LoadImage",
+      "pos": [
+        280,
+        1274
+      ],
+      "size": {
+        "0": 315,
+        "1": 314
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            15
+          ],
+          "shape": 3
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "swk.jpg",
+        "image"
+      ]
     }
   ],
   "links": [
@@ -828,8 +830,8 @@
     "ds": {
       "scale": 0.7247295000000007,
       "offset": {
-        "0": 668.0740966796875,
-        "1": 143.1909942626953
+        "0": 651.7206756576027,
+        "1": 18.49569577115478
       }
     }
   },

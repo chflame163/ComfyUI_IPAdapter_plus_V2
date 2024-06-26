@@ -19,4 +19,4 @@ The copy of latest ComfyUI_IPAdapter_plus V1 version is saved on [GoogleDrive](h
   
 * Usage：    
 The weight slider adjustment range is -1 to 1.    
-If you want the weight to be greater than 1 or less than -1, please adjust the ```weight``` value of the IPAdapter Mad Scientist node. The final effective value is the multiplier between the slider value and the ```weight```.
+If you want to exceed this range, adjust the ```multiplier``` to multiply the output slider value with it.
