@@ -45,7 +45,9 @@ class_name_mapping_list = [
     "IPAdapterWeightsFromStrategy",
     "IPAdapterPromptScheduleFromWeightsStrategy",
     "IPAdapterCombineWeights",
-    "IPAdapterEmbedsBatch"
+    "IPAdapterEmbedsBatch",
+    "IPAdapterPreciseStyleTransfer",
+    "IPAdapterPreciseStyleTransferBatch",
 ]
 
 display_name_mapping_list = [
@@ -78,7 +80,9 @@ display_name_mapping_list = [
     "IPAdapter Weights From Strategy",
     "Prompt Schedule From Weights Strategy",
     "IPAdapter Combine Weights",
-    "IPAdapter Embeds Batch"
+    "IPAdapter Embeds Batch",
+    "IPAdapter Precise Style Transfer",
+    "IPAdapter Precise Style Transfer Batch",
 ]
 
 def change_node_name():
