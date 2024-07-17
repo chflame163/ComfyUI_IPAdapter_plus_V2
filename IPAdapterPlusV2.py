@@ -220,7 +220,9 @@ def ipadapter_execute(model,
                       layer_weights=None,
                       encode_batch_size=0,
                       style_boost=None,
-                      composition_boost=None,):
+                      composition_boost=None,
+                      enhance_tiles=1,
+                      enhance_ratio=1.0,):
     device = model_management.get_torch_device()
     dtype = model_management.unet_dtype()
     if dtype not in [torch.float32, torch.float16, torch.bfloat16]:
@@ -326,9 +328,9 @@ def ipadapter_execute(model,
         del image_iface, face
 
     if image is not None:
-        img_cond_embeds = encode_image_masked(clipvision, image, batch_size=encode_batch_size)
+        img_cond_embeds = encode_image_masked(clipvision, image, batch_size=encode_batch_size, tiles=enhance_tiles, ratio=enhance_ratio)
         if image_composition is not None:
-            img_comp_cond_embeds = encode_image_masked(clipvision, image_composition, batch_size=encode_batch_size)
+            img_comp_cond_embeds = encode_image_masked(clipvision, image_composition, batch_size=encode_batch_size, tiles=enhance_tiles, ratio=enhance_ratio)
 
         if is_plus:
             img_cond_embeds = img_cond_embeds.penultimate_hidden_states
@@ -715,7 +717,7 @@ class IPAdapterAdvancedV2:
     FUNCTION = "apply_ipadapter"
     CATEGORY = "ipadapter"
 
-    def apply_ipadapter(self, model, ipadapter, start_at=0.0, end_at=1.0, weight=1.0, weight_style=1.0, weight_composition=1.0, expand_style=False, weight_type="linear", combine_embeds="concat", weight_faceidv2=None, image=None, image_style=None, image_composition=None, image_negative=None, clip_vision=None, attn_mask=None, insightface=None, embeds_scaling='V only', layer_weights=None, ipadapter_params=None, encode_batch_size=0, style_boost=None, composition_boost=None):
+    def apply_ipadapter(self, model, ipadapter, start_at=0.0, end_at=1.0, weight=1.0, weight_style=1.0, weight_composition=1.0, expand_style=False, weight_type="linear", combine_embeds="concat", weight_faceidv2=None, image=None, image_style=None, image_composition=None, image_negative=None, clip_vision=None, attn_mask=None, insightface=None, embeds_scaling='V only', layer_weights=None, ipadapter_params=None, encode_batch_size=0, style_boost=None, composition_boost=None, enhance_tiles=1, enhance_ratio=1.0):
         is_sdxl = isinstance(model.model, (comfy.model_base.SDXL, comfy.model_base.SDXLRefiner, comfy.model_base.SDXL_instructpix2pix))
 
         if 'ipadapter' in ipadapter:
@@ -775,6 +777,8 @@ class IPAdapterAdvancedV2:
                 "encode_batch_size": encode_batch_size,
                 "style_boost": style_boost,
                 "composition_boost": composition_boost,
+                "enhance_tiles": enhance_tiles,
+                "enhance_ratio": enhance_ratio,
             }
 
             work_model, face_image = ipadapter_execute(work_model, ipadapter_model, clip_vision, **ipa_args)
@@ -1134,6 +1138,32 @@ class IPAdapterMSV2(IPAdapterAdvancedV2):
                 "attn_mask": ("MASK",),
                 "clip_vision": ("CLIP_VISION",),
                 "insightface": ("INSIGHTFACE",),
+            }
+        }
+
+    CATEGORY = "ipadapter/dev"
+
+class IPAdapterClipVisionEnhancerV2(IPAdapterAdvancedV2):
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "model": ("MODEL", ),
+                "ipadapter": ("IPADAPTER", ),
+                "image": ("IMAGE",),
+                "weight": ("FLOAT", { "default": 1.0, "min": -1, "max": 5, "step": 0.05 }),
+                "weight_type": (WEIGHT_TYPES, ),
+                "combine_embeds": (["concat", "add", "subtract", "average", "norm average"],),
+                "start_at": ("FLOAT", { "default": 0.0, "min": 0.0, "max": 1.0, "step": 0.001 }),
+                "end_at": ("FLOAT", { "default": 1.0, "min": 0.0, "max": 1.0, "step": 0.001 }),
+                "embeds_scaling": (['V only', 'K+V', 'K+V w/ C penalty', 'K+mean(V) w/ C penalty'], ),
+                "enhance_tiles": ("INT", { "default": 2, "min": 1, "max": 16 }),
+                "enhance_ratio": ("FLOAT", { "default": 1.0, "min": 0.0, "max": 1.0, "step": 0.05 }),
+            },
+            "optional": {
+                "image_negative": ("IMAGE",),
+                "attn_mask": ("MASK",),
+                "clip_vision": ("CLIP_VISION",),
             }
         }
 
@@ -1809,6 +1839,7 @@ NODE_CLASS_MAPPINGS = {
     "IPAdapterStyleCompositionV2": IPAdapterStyleCompositionV2,
     "IPAdapterStyleCompositionBatchV2": IPAdapterStyleCompositionBatchV2,
     "IPAdapterMSV2": IPAdapterMSV2,
+    "IPAdapterClipVisionEnhancerV2": IPAdapterClipVisionEnhancerV2,
     "IPAdapterFromParamsV2": IPAdapterFromParamsV2,
     "IPAdapterPreciseStyleTransferV2": IPAdapterPreciseStyleTransferV2,
     "IPAdapterPreciseStyleTransferBatchV2": IPAdapterPreciseStyleTransferBatchV2,
@@ -1851,6 +1882,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "IPAdapterStyleCompositionV2": "IPAdapter Style & Composition SDXL V2",
     "IPAdapterStyleCompositionBatchV2": "IPAdapter Style & Composition Batch SDXL V2",
     "IPAdapterMSV2": "IPAdapter Mad Scientist V2",
+    "IPAdapterClipVisionEnhancerV2": "IPAdapter ClipVision Enhancer V2",
     "IPAdapterFromParamsV2": "IPAdapter from Params V2",
     "IPAdapterPreciseStyleTransferV2": "IPAdapter Precise Style Transfer V2",
     "IPAdapterPreciseStyleTransferBatchV2": "IPAdapter Precise Style Transfer Batch V2",

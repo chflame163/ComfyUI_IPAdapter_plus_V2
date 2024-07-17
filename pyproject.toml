@@ -1,7 +1,7 @@
 [project]
 name = "comfyui_ipadapter_plus_v2"
 description = "A copy of ComfyUI_IPAdapter_plus, Only changed node name to coexist with ComfyUI_IPAdapter_plus v1 version."
-version = "1.0.6"
+version = "1.0.7"
 license = "GPL-3.0 license"
 
 [project.urls]
