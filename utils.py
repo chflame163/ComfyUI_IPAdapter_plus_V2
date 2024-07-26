@@ -16,6 +16,8 @@ def get_clipvision_file(preset):
 
     if preset.startswith("vit-g"):
         pattern = r'(ViT.bigG.14.*39B.b160k|ipadapter.*sdxl|sdxl.*model\.(bin|safetensors))'
+    elif preset.startswith("kolors"):
+        pattern = r'(clip.vit.large.patch14.336\.(bin|safetensors))'
     else:
         pattern = r'(ViT.H.14.*s32B.b79K|ipadapter.*sd15|sd1.?5.*model\.(bin|safetensors))'
     clipvision_file = [e for e in clipvision_list if re.search(pattern, e, re.IGNORECASE)]
@@ -104,6 +106,11 @@ def get_ipadapter_file(preset, is_sdxl):
             pattern = r'plus.composition.sdxl\.safetensors$'
         else:
             pattern = r'plus.composition.sd15\.safetensors$'
+    elif preset.startswith("kolors"):
+        if is_sdxl:
+            pattern = r'(ip_adapter_plus_general|kolors.ip.adapter.plus)\.(safetensors|bin)$'
+        else:
+            raise Exception("Only supported for Kolors model")
     else:
         raise Exception(f"invalid type '{preset}'")
 
@@ -205,9 +212,9 @@ def merge_embeddings(embeds): # TODO: this needs so much testing that I don't ev
     
     return pooled
 
-def encode_image_masked(clip_vision, image, mask=None, batch_size=0, tiles=1, ratio=1.0):
+def encode_image_masked(clip_vision, image, mask=None, batch_size=0, tiles=1, ratio=1.0, clipvision_size=224):
     # full image embeds
-    embeds = encode_image_masked_(clip_vision, image, mask, batch_size)
+    embeds = encode_image_masked_(clip_vision, image, mask, batch_size, clipvision_size=clipvision_size)
     tiles = min(tiles, 16)
 
     if tiles > 1:
@@ -215,7 +222,7 @@ def encode_image_masked(clip_vision, image, mask=None, batch_size=0, tiles=1, ra
         image_split = split_tiles(image, tiles)
 
         # get the embeds for each tile
-        embeds_split = encode_image_masked_(clip_vision, image_split, mask, batch_size)
+        embeds_split = encode_image_masked_(clip_vision, image_split, mask, batch_size, clipvision_size=clipvision_size)
 
         #embeds_split['last_hidden_state'] = merge_hiddenstates(embeds_split['last_hidden_state'])
         embeds_split["image_embeds"] = merge_embeddings(embeds_split["image_embeds"])
@@ -229,7 +236,7 @@ def encode_image_masked(clip_vision, image, mask=None, batch_size=0, tiles=1, ra
 
     return embeds
 
-def encode_image_masked_(clip_vision, image, mask=None, batch_size=0):
+def encode_image_masked_(clip_vision, image, mask=None, batch_size=0, clipvision_size=224):
     model_management.load_model_gpu(clip_vision.patcher)
     outputs = Output()
 
@@ -242,7 +249,7 @@ def encode_image_masked_(clip_vision, image, mask=None, batch_size=0):
 
     for img in image_batch:
         img = img.to(clip_vision.load_device)
-        pixel_values = clip_preprocess(img).float()
+        pixel_values = clip_preprocess(img, size=clipvision_size).float()
 
         # TODO: support for multiple masks
         if mask is not None:
