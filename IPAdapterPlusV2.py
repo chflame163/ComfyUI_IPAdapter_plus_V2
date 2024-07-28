@@ -1175,6 +1175,33 @@ class IPAdapterClipVisionEnhancerV2(IPAdapterAdvancedV2):
 
     CATEGORY = "ipadapter/dev"
 
+class IPAdapterClipVisionEnhancerBatchV2(IPAdapterClipVisionEnhancerV2):
+    def __init__(self):
+        self.unfold_batch = True
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "model": ("MODEL", ),
+                "ipadapter": ("IPADAPTER", ),
+                "image": ("IMAGE",),
+                "weight": ("FLOAT", { "default": 1.0, "min": -1, "max": 5, "step": 0.05 }),
+                "weight_type": (WEIGHT_TYPES, ),
+                "start_at": ("FLOAT", { "default": 0.0, "min": 0.0, "max": 1.0, "step": 0.001 }),
+                "end_at": ("FLOAT", { "default": 1.0, "min": 0.0, "max": 1.0, "step": 0.001 }),
+                "embeds_scaling": (['V only', 'K+V', 'K+V w/ C penalty', 'K+mean(V) w/ C penalty'], ),
+                "enhance_tiles": ("INT", { "default": 2, "min": 1, "max": 16 }),
+                "enhance_ratio": ("FLOAT", { "default": 0.5, "min": 0.0, "max": 1.0, "step": 0.05 }),
+                "encode_batch_size": ("INT", { "default": 0, "min": 0, "max": 4096 }),
+            },
+            "optional": {
+                "image_negative": ("IMAGE",),
+                "attn_mask": ("MASK",),
+                "clip_vision": ("CLIP_VISION",),
+            }
+        }
+
 class IPAdapterFromParamsV2(IPAdapterAdvancedV2):
     @classmethod
     def INPUT_TYPES(s):
@@ -1849,6 +1876,7 @@ NODE_CLASS_MAPPINGS = {
     "IPAdapterStyleCompositionBatchV2": IPAdapterStyleCompositionBatchV2,
     "IPAdapterMSV2": IPAdapterMSV2,
     "IPAdapterClipVisionEnhancerV2": IPAdapterClipVisionEnhancerV2,
+    "IPAdapterClipVisionEnhancerBatchV2": IPAdapterClipVisionEnhancerBatchV2,
     "IPAdapterFromParamsV2": IPAdapterFromParamsV2,
     "IPAdapterPreciseStyleTransferV2": IPAdapterPreciseStyleTransferV2,
     "IPAdapterPreciseStyleTransferBatchV2": IPAdapterPreciseStyleTransferBatchV2,
@@ -1892,6 +1920,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "IPAdapterStyleCompositionBatchV2": "IPAdapter Style & Composition Batch SDXL V2",
     "IPAdapterMSV2": "IPAdapter Mad Scientist V2",
     "IPAdapterClipVisionEnhancerV2": "IPAdapter ClipVision Enhancer V2",
+    "IPAdapterClipVisionEnhancerBatchV2": "IPAdapter ClipVision Enhancer Batch V2",
     "IPAdapterFromParamsV2": "IPAdapter from Params V2",
     "IPAdapterPreciseStyleTransferV2": "IPAdapter Precise Style Transfer V2",
     "IPAdapterPreciseStyleTransferBatchV2": "IPAdapter Precise Style Transfer Batch V2",

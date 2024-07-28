@@ -50,7 +50,8 @@ class_name_mapping_list = [
     "IPAdapterPreciseStyleTransferBatch",
     "IPAdapterPreciseComposition",
     "IPAdapterPreciseCompositionBatch",
-    "IPAdapterClipVisionEnhancer"
+    "IPAdapterClipVisionEnhancer",
+    "IPAdapterClipVisionEnhancerBatch"
 ]
 
 display_name_mapping_list = [
@@ -88,7 +89,8 @@ display_name_mapping_list = [
     "IPAdapter Precise Style Transfer Batch",
     "IPAdapter Precise Composition",
     "IPAdapter Precise Composition Batch",
-    "IPAdapter ClipVision Enhancer"
+    "IPAdapter ClipVision Enhancer",
+    "IPAdapter ClipVision Enhancer Batch"
 ]
 
 def change_node_name():
